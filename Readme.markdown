@@ -7,7 +7,7 @@ Ruby library for working with Xcode Server and Xcode Bots.
 
 Add this line to your application's Gemfile:
 
-```ruby
+``` ruby
 gem 'xcode_server'
 ```
 
@@ -22,7 +22,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+First, you need to initialize a server:
+
+``` ruby
+server = XcodeServer::Server.new('10.0.1.2')
+```
+
+You can list the bots running on the server:
+
+``` ruby
+server.bots
+```
+
+Create a new bot:
+
+``` ruby
+server.create_bot(...)
+```
 
 
 ## Development
