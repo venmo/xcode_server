@@ -7,14 +7,16 @@ module XcodeServer
 
       def get(path)
         path = "/xcode/api/#{path}"
-        response = http.request(Net::HTTP::Get.new(path))
-        JSON.load(response.body)
+        http.request(Net::HTTP::Get.new(path))
+      end
+
+      def get_json(path)
+        JSON.load(get(path).body)
       end
 
       def delete(path)
         path = "/xcode/api/#{path}"
-        response = http.request(Net::HTTP::Delete.new(path))
-        JSON.load(response.body)
+        http.request(Net::HTTP::Delete.new(path))
       end
 
       private

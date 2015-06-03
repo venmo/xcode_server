@@ -13,12 +13,12 @@ module XcodeServer
     end
 
     def bots
-      get('bots')['results'].map { |result| Bot.new(self, result) }
+      get_json('bots')['results'].map { |result| Bot.new(self, result) }
     end
 
     def destroy_bot(id, rev = nil)
-      rev ||= get("bots/#{id}")['_rev']
-      delete("bots/#{id}/#{rev}")
+      rev ||= get_json("bots/#{id}")['_rev']
+      delete("bots/#{id}/#{rev}").code.to_i == 204
     end
   end
 end

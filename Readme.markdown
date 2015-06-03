@@ -25,19 +25,20 @@ Or install it yourself as:
 First, you need to initialize a server:
 
 ``` ruby
-server = XcodeServer::Server.new('10.0.1.2')
-```
+# Initialize a server with its host or IP
+server = XcodeServer.new('10.0.1.2')
+#=> #<XcodeServer::Server @host="10.0.1.2", @scheme="https">
 
-You can list the bots running on the server:
-
-``` ruby
+# List the bots running on the server
 server.bots
-```
+#=> [#<XcodeServer::Bot...
 
-Create a new bot:
-
-``` ruby
+# Create a new bot
 server.create_bot(...)
+
+# Destroy a bot
+server.destroy_bot(bot_id)
+#=> true
 ```
 
 
