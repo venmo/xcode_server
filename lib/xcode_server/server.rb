@@ -16,8 +16,9 @@ module XcodeServer
       get('bots')['results'].map { |result| Bot.new(self, result) }
     end
 
-    def destroy_bot(id)
-
+    def destroy_bot(id, rev = nil)
+      rev ||= get("bots/#{id}")['_rev']
+      delete("bots/#{id}/#{rev}")
     end
   end
 end

@@ -11,6 +11,12 @@ module XcodeServer
         JSON.load(response.body)
       end
 
+      def delete(path)
+        path = "/xcode/api/#{path}"
+        response = http.request(Net::HTTP::Delete.new(path))
+        JSON.load(response.body)
+      end
+
       private
 
       def http
