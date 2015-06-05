@@ -5,6 +5,11 @@ module XcodeServer
   class Server
     include Networking
 
+    module TestingSchedule
+      ON_COMMIT = 2
+      PERIODIC = 1 # TODO: Verify this value
+    end
+
     attr_reader :scheme
     attr_reader :host
 
@@ -22,15 +27,30 @@ module XcodeServer
       delete("bots/#{id}/#{rev}").code.to_i == 204
     end
 
-    def create_bot(performs_test_action: true,
-                   performs_archive_action: false,
-                   performs_analyze_action: true,
-                   scheme_name: nil,
+    ##
+    # Create a new bot on the server
+    #
+    # @param bot_name [String] The human name of the bot (e.g. "venmo/venmo-iphone#99 (feature/ci)")
+    # @param branch_name [String] The name of the branch to integrate
+    # @param performs_analyze_action [Boolean] Whether or not to analyze during integration
+    # @param performs_archive_action [Boolean] Whether or not to archive during integration
+    # @param performs_test_action [Boolean] Whether or not to test during integration
+    # @param project_path [String] The path to the project or workspace within the working directory
+    # @param repo_url [String] The git URL for a repo containing the project to integrate
+    # @param scheme_name [String] The name of the Xcode scheme to integrate
+    # @param testing_schedule [Integer] See TestingSchedule
+    # @param working_copy_path [String] The name of the working copy directory, usually the name of the repo (e.g. venmo/venmo-iphone)
+    def create_bot(bot_name:,
                    branch_name: "master",
-                   repo_identifier: nil,
-                   working_copy_path: nil,
-                   project_path: nil,
-                   project_url: nil)
+                   performs_analyze_action: true,
+                   performs_archive_action: false,
+                   performs_test_action: true,
+                   project_path:,
+                   repo_url:,
+                   scheme_name:,
+                   testing_schedule: TestingSchedule::ON_COMMIT,
+                   working_copy_path:)
+      repo_identifier = SecureRandom.uuid
       res = post('bots',
         group: {
           name: SecureRandom.uuid
@@ -72,12 +92,12 @@ module XcodeServer
             }]
           },
           hourOfIntegration: 0,
-          scheduleType: 2, # "On Commit" schedule
+          scheduleType: testing_schedule,
           performs_archive_action: performs_archive_action,
           testingDestinationType: 0 # "iOS All Devices and All Simulators"
         },
         requiresUpgrade: false, # Mystery meat
-        name: "#{working_copy_path} - #{scheme_name} @ #{branch_name}",
+        name: bot_name,
         type: 1 # Mystery meat
       )
 
