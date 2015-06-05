@@ -6,11 +6,11 @@ require 'xcode_server/version'
 Gem::Specification.new do |spec|
   spec.name          = 'xcode_server'
   spec.version       = XcodeServer::VERSION
-  spec.authors       = ['Sam Soffes']
-  spec.email         = ['sam@soff.es']
+  spec.authors       = ['Sam Soffes', 'Mickey Reiss']
+  spec.email         = ['sam@soff.es', 'mickeyreiss@gmail.com']
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = 'Xcode Bot client'
+  spec.description   = spec.summary
   spec.homepage      = 'https://github.com/venmo/xcode_server'
   spec.license       = 'MIT'
 
