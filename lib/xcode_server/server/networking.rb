@@ -33,12 +33,11 @@ module XcodeServer
 
       def http
         @_http ||= begin
-          http = Net::HTTP.new(host, 443)
-          http.use_ssl = true
-
-          # By default, Xcode Server uses a self-signed certificate
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
+          use_ssl = @scheme == 'https'
+          port = use_ssl ? 443 : 80
+          http = Net::HTTP.new(host, port)
+          http.use_ssl = use_ssl
+          http.verify_mode = @verify_mode
           http
         end
       end

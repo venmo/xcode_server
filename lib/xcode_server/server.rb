@@ -1,4 +1,5 @@
 require 'xcode_server/server/networking'
+require 'net/http'
 require 'SecureRandom'
 
 module XcodeServer
@@ -13,9 +14,15 @@ module XcodeServer
     attr_reader :scheme
     attr_reader :host
 
-    def initialize(host, scheme = 'https')
+    ##
+    # Initialize a new Xcode Server.
+    # @param host [String] The host of the server.
+    # @param scheme [String] The scheme to connect on. Default is `https`.
+    # @param verify_mode SSL verify mode. Default is `OpenSSL::SSL::VERIFY_PEER`. If you are using a self-signed cert, use `OpenSSL::SSL::VERIFY_NONE`
+    def initialize(host, scheme: 'https', verify_mode: OpenSSL::SSL::VERIFY_PEER)
       @host = host
-      @scheme = scheme
+      @scheme = scheme.downcase
+      @verify_mode = verify_mode
     end
 
     ##
