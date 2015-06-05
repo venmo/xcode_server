@@ -18,10 +18,15 @@ module XcodeServer
       @scheme = scheme
     end
 
+    ##
+    # Retrieve a list of all bots on the server
     def bots
       get_json('bots')['results'].map { |result| Bot.new(self, result) }
     end
 
+    ##
+    # Delete an existing bot based on the bot id
+    # @param id [String] The bot's id as returned by Bot#id
     def destroy_bot(id, rev = nil)
       rev ||= get_json("bots/#{id}")['_rev']
       delete("bots/#{id}/#{rev}").code.to_i == 204
