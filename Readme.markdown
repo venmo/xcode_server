@@ -2,6 +2,7 @@
 
 Ruby library for working with Xcode Server and Xcode Bots.
 
+> **Note:** This library uses an undocumented API within Xcode Bots and is not yet fully featured.
 
 ## Installation
 
