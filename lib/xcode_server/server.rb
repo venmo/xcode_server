@@ -7,8 +7,17 @@ module XcodeServer
     include Networking
 
     module TestingSchedule
-      ON_COMMIT = 2
-      PERIODIC = 1 # TODO: Verify this value
+      module Type
+        PERIODIC = 1
+        ON_COMMIT = 2
+        MANUAL = 3
+      end
+
+      module Period
+        HOURLY = 1
+        DAILY = 2
+        WEEKLY = 3
+      end
     end
 
     attr_reader :scheme
@@ -60,7 +69,7 @@ module XcodeServer
                    project_path:,
                    repo_url:,
                    scheme_name:,
-                   testing_schedule: TestingSchedule::ON_COMMIT,
+                   testing_schedule: TestingSchedule::Type::ON_COMMIT,
                    working_copy_path:)
       repo_identifier = SecureRandom.uuid
       res = post('bots',
